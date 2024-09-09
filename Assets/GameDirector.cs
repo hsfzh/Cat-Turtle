@@ -4,19 +4,61 @@ using UnityEngine;
 
 public class GameDirector : MonoBehaviour
 {
-    public GameObject [] tiles;
-    private Vector3 [] tilePositions;
+    public GameObject player;
+    [SerializeField] private GameObject[] row1, row2, row3, row4, row5, row6;
+    public GameObject [,] tiles;
+    public Vector3 [,] tilePositions;
     private Vector3 clickPosition;
-    private int size;
+    public int rowSize=6;
+    public int columnSize=8;
     // Start is called before the first frame update
     void Start()
     {
-        size = tiles.Length;
-        tilePositions = new Vector3[size];
-        for(int i=0; i<size; i++)
+        tiles = new GameObject [rowSize, columnSize];
+        for (int i = 0; i < rowSize; i++)
         {
-            tiles[i].SetActive(true);
-            tilePositions[i] = tiles[i].transform.position;
+            for (int j = 0; j < columnSize; j++)
+            {
+                switch (i+1)
+                {
+                    case 1: 
+                        tiles[i, j] = row1[j];
+                        break;
+                    case 2:
+                        tiles[i, j] = row2[j];
+                        break;
+                    case 3:
+                        tiles[i, j] = row3[j];
+                        break;
+                    case 4:
+                        tiles[i, j] = row4[j];
+                        break;
+                    case 5:
+                        tiles[i, j] = row5[j];
+                        break;
+                    case 6:
+                        tiles[i, j] = row6[j];
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        tilePositions = new Vector3[rowSize, columnSize];
+        for(int i=0; i<rowSize; i++)
+        {
+            for (int j = 0; j < columnSize; j++)
+            {
+                if (i == 2 && j == 0)
+                {
+                    tiles[i,j].SetActive(false);
+                }
+                else
+                {
+                    tiles[i,j].SetActive(true);
+                }
+                tilePositions[i,j] = tiles[i,j].transform.position;
+            }
         }
     }
 
@@ -27,24 +69,33 @@ public class GameDirector : MonoBehaviour
         {
             clickPosition = Input.mousePosition;
             clickPosition = Camera.main.ScreenToWorldPoint(clickPosition);
-            Debug.Log(clickPosition);
             bool x = false;
             bool y = false;
-            for (int i = 0; i < size; i++)
+            bool z = false;
+            for(int i=0; i<rowSize; i++)
             {
-                x = (clickPosition.x > tilePositions[i].x - 0.75 && clickPosition.x < tilePositions[i].x + 0.75);
-                y = (clickPosition.y > tilePositions[i].y - 0.75 && clickPosition.y < tilePositions[i].y + 0.75);
-                if (x && y)
+                for (int j = 0; j < columnSize; j++)
                 {
-                    if (tiles[i].activeSelf)
+                    x = (clickPosition.x > tilePositions[i, j].x - 0.75 &&
+                         clickPosition.x < tilePositions[i, j].x + 0.75);
+                    y = (clickPosition.y > tilePositions[i, j].y - 0.75 &&
+                         clickPosition.y < tilePositions[i, j].y + 0.75);
+                    z = !(player.transform.position.x > tilePositions[i, j].x - 0.75 &&
+                          player.transform.position.x < tilePositions[i, j].x + 0.75 &&
+                          player.transform.position.y > tilePositions[i, j].y - 0.75 &&
+                          player.transform.position.y < tilePositions[i, j].y + 0.75);
+                    if (x && y && z)
                     {
-                        tiles[i].SetActive(false);
+                        if (tiles[i,j].activeSelf)
+                        {
+                            tiles[i,j].SetActive(false);
+                        }
+                        else
+                        {
+                            tiles[i,j].SetActive(true);
+                        }
+                        break;
                     }
-                    else
-                    {
-                        tiles[i].SetActive(true);
-                    }
-                    break;
                 }
             }
         }
