@@ -1492,6 +1492,9 @@ MonoBehaviour:
   - {fileID: 879859544}
   - {fileID: 929280901}
   - {fileID: 827160628}
+  rowSize: 6
+  columnSize: 8
+  tileSize: 15
 --- !u!1 &234170606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,7 +2094,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 9, z: 1}
+  m_LocalScale: {x: 126, y: 96, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2252,7 +2255,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 9, z: 1}
+  m_LocalScale: {x: 120, y: 90, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1235007544}
@@ -3927,7 +3930,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 54
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4289,7 +4292,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.4375, y: 0.4166667, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.16666669, z: 1}
+  m_LocalScale: {x: 0.125, y: 0.16666667, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 733778842}
@@ -5862,7 +5865,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 0.9667599, b: 0.7122642, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5883,7 +5886,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 200, y: 200, z: 1}
+  m_LocalScale: {x: 192, y: 108, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -7121,7 +7124,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119749805}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -7201,8 +7204,8 @@ Transform:
   m_GameObject: {fileID: 2119749805}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.25, y: 0.68, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -52.5, y: 7.5, z: 0}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -7220,6 +7223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   director: {fileID: 227755909}
+  tileSize: 15
 --- !u!1 &2132472907
 GameObject:
   m_ObjectHideFlags: 0

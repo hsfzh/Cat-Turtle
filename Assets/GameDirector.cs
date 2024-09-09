@@ -11,6 +11,7 @@ public class GameDirector : MonoBehaviour
     private Vector3 clickPosition;
     public int rowSize=6;
     public int columnSize=8;
+    public float tileSize = 15f;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,36 +66,39 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (player.GetComponent<PlayerController>().direction == 0)
         {
-            clickPosition = Input.mousePosition;
-            clickPosition = Camera.main.ScreenToWorldPoint(clickPosition);
-            bool x = false;
-            bool y = false;
-            bool z = false;
-            for(int i=0; i<rowSize; i++)
+            if (Input.GetMouseButtonDown(0))
             {
-                for (int j = 0; j < columnSize; j++)
+                clickPosition = Input.mousePosition;
+                clickPosition = Camera.main.ScreenToWorldPoint(clickPosition);
+                bool x = false;
+                bool y = false;
+                bool z = false;
+                for(int i=0; i<rowSize; i++)
                 {
-                    x = (clickPosition.x > tilePositions[i, j].x - 0.75 &&
-                         clickPosition.x < tilePositions[i, j].x + 0.75);
-                    y = (clickPosition.y > tilePositions[i, j].y - 0.75 &&
-                         clickPosition.y < tilePositions[i, j].y + 0.75);
-                    z = !(player.transform.position.x > tilePositions[i, j].x - 0.75 &&
-                          player.transform.position.x < tilePositions[i, j].x + 0.75 &&
-                          player.transform.position.y > tilePositions[i, j].y - 0.75 &&
-                          player.transform.position.y < tilePositions[i, j].y + 0.75);
-                    if (x && y && z)
+                    for (int j = 0; j < columnSize; j++)
                     {
-                        if (tiles[i,j].activeSelf)
+                        x = (clickPosition.x > tilePositions[i, j].x - tileSize/2 &&
+                             clickPosition.x < tilePositions[i, j].x + tileSize/2);
+                        y = (clickPosition.y > tilePositions[i, j].y - tileSize/2 &&
+                             clickPosition.y < tilePositions[i, j].y + tileSize/2);
+                        z = !(player.transform.position.x > tilePositions[i, j].x - tileSize/2 &&
+                              player.transform.position.x < tilePositions[i, j].x + tileSize/2 &&
+                              player.transform.position.y > tilePositions[i, j].y - tileSize/2 &&
+                              player.transform.position.y < tilePositions[i, j].y + tileSize/2);
+                        if (x && y && z)
                         {
-                            tiles[i,j].SetActive(false);
+                            if (tiles[i,j].activeSelf)
+                            {
+                                tiles[i,j].SetActive(false);
+                            }
+                            else
+                            {
+                                tiles[i,j].SetActive(true);
+                            }
+                            break;
                         }
-                        else
-                        {
-                            tiles[i,j].SetActive(true);
-                        }
-                        break;
                     }
                 }
             }
