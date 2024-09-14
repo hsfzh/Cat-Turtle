@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -11,11 +12,11 @@ TagManager:
   - 
   - Water
   - UI
-  - tiles
-  - main
-  - 
-  - 
-  - 
+  - Ground
+  - Character
+  - Player
+  - Tile
+  - Wall
   - 
   - 
   - 
@@ -40,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ground
+    uniqueID: 3657513533
+    locked: 0
+  - name: characters
+    uniqueID: 786455929
+    locked: 0
+  - name: tile
+    uniqueID: 1281180765
     locked: 0
