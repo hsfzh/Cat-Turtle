@@ -2,20 +2,23 @@ using UnityEngine;
 
 public class Player
 {
-    private readonly GameObject director;
-    private readonly float jumpForce;
-    private readonly GameObject player;
+    public GameObject director;
+    public readonly float jumpForce;
+    public readonly GameObject player;
 
-    private readonly float speed;
+    public float speed;
     public bool active;
     public GameObject button;
     public int direction;
-    private float facing;
+    public float facing;
     public bool isJump;
-    public bool left, right, up, climb;
+    public bool left, right, up;
     public Rigidbody2D rigid;
 
-    // Start is called before the first frame update
+    public Player()
+    {
+        
+    }
     public Player(GameObject d, GameObject p, GameObject b, float s, float j, bool a)
     {
         director = d;
@@ -26,7 +29,6 @@ public class Player
         left = false;
         right = false;
         up = false;
-        climb = false;
         isJump = false;
         speed = s;
         rigid = player.GetComponent<Rigidbody2D>();
@@ -37,11 +39,11 @@ public class Player
     private void DetectGround()
     {
         var rayHit =
-            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 3.75f, LayerMask.GetMask("Ground"));
+            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 3.75f, LayerMask.GetMask("Ground", "Tile"));
         if (rayHit.collider != null) isJump = false;
     }
 
-    public void Move()
+    public virtual void Move()
     {
         DetectGround();
         if (Input.GetKey(KeyCode.A)) button.GetComponent<ButtonController>().left = true;
@@ -59,17 +61,11 @@ public class Player
             rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
 
-        if (climb && up)
-        {
-            rigid.gravityScale = 0;
-            player.transform.Translate(Vector2.up * speed * Time.deltaTime);
-        }
-
         if (Input.GetKeyUp(KeyCode.A)) button.GetComponent<ButtonController>().left = false;
         if (Input.GetKeyUp(KeyCode.D)) left = button.GetComponent<ButtonController>().right = false;
         if (Input.GetKeyUp(KeyCode.W)) left = button.GetComponent<ButtonController>().up = false;
         if (!left && !right) direction = 0;
-        player.transform.Translate(new Vector2(direction, 0) * speed * Time.deltaTime);
+        player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
         if (direction != 0) facing = direction;
     }
 
