@@ -3,10 +3,12 @@ using UnityEngine;
 public class CatPlayer : Player
 {
     public bool climb;
+    public float delay;
 
     public CatPlayer(GameObject d, GameObject p, GameObject b, float s, float j, bool a) : base(d, p, b, s, j, a)
     {
         climb = false;
+        delay = 0.5f;
     }
     public override void Move()
     {
@@ -14,17 +16,23 @@ public class CatPlayer : Player
         //고양이 기어올라가기
         if (climb)
         {
+            Debug.Log(delay);
+            delay -= Time.deltaTime;
             rigid.velocity=Vector2.zero;
             rigid.gravityScale = 10f;
             if (up)
             {
                 player.transform.Translate(new Vector2(0, 1 * speed * Time.deltaTime), Space.World);
+                delay = 0.5f;
             }
 
             if (down)
             {
                 player.transform.Translate(new Vector2(0,-1*speed*Time.deltaTime),Space.World);
+                delay = 0.5f;
             }
+            if (delay <= 0)
+                climb = false;
         }
     }
 }
@@ -65,13 +73,19 @@ public class CatController : MonoBehaviour
                 {
                     if (rayHitL.collider != null)
                     {
-                        if(player.left)
+                        if (player.left)
+                        {
                             player.climb = true;
+                            player.delay = 0.5f;
+                        }
                     }
                     else if (rayHitR.collider != null)
                     {
-                        if(player.right)
+                        if (player.right)
+                        {
                             player.climb = true;
+                            player.delay=0.5f;
+                        }
                     }
                     else
                     {
@@ -106,6 +120,7 @@ public class CatController : MonoBehaviour
                     distance = 7.5f;
                     player.rigid.gravityScale = 4.5f;
                     transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    player.delay = 0.5f;
                 }
             }
             else
