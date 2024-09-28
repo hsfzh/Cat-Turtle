@@ -16,6 +16,7 @@ public class CatPlayer : Player
         //고양이 기어올라가기
         if (climb)
         {
+            left = right = false;
             Debug.Log(delay);
             delay -= Time.deltaTime;
             rigid.velocity=Vector2.zero;
@@ -46,13 +47,14 @@ public class CatController : MonoBehaviour
 
     private CatPlayer player;
     private float distance;
-    private bool turn;
+    private bool turn, turnBack;
 
     // Start is called before the first frame update
     private void Start()
     {
         player = new CatPlayer(director, self, button, speed, jumpForce, false);
         turn = false;
+        turnBack = false;
         distance = 7.5f;
     }
 
@@ -94,6 +96,7 @@ public class CatController : MonoBehaviour
                 }
                 if(player.climb)
                 {
+                    turnBack = false;
                     if (rayHitL.collider != null)
                     {
                         transform.localRotation = Quaternion.Euler(0, 0, -90);
@@ -119,6 +122,17 @@ public class CatController : MonoBehaviour
                     turn = false;
                     distance = 7.5f;
                     player.rigid.gravityScale = 4.5f;
+                    if (!turnBack)
+                    {
+                        if (transform.localRotation == Quaternion.Euler(0, 0, -90))
+                        {
+                            transform.position += new Vector3(4f, 0, 0);
+                        }
+                        else if (transform.localRotation == Quaternion.Euler(0, 0, 90))
+                        {
+                            transform.position += new Vector3(-4f, 0, 0);
+                        }
+                    }
                     transform.localRotation = Quaternion.Euler(0, 0, 0);
                     player.delay = 0.5f;
                 }

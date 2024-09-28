@@ -2042,7 +2042,7 @@ MonoBehaviour:
   - {fileID: 827160628}
   rowSize: 6
   columnSize: 8
-  tileSize: 15
+  tileSize: 0
   slimeBtn: {fileID: 1233190051}
   catBtn: {fileID: 1882089068}
   turtleBtn: {fileID: 1352317926}

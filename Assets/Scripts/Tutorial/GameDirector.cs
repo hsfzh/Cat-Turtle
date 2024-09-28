@@ -12,10 +12,9 @@ public class GameDirector : MonoBehaviour
     [SerializeField] private GameObject[] row1, row2, row3, row4, row5, row6;
     public int rowSize = 6;
     public int columnSize = 8;
-    public float tileSize = 15f;
+    public float tileSize;
     public GameObject slimeBtn;
     public GameObject catBtn;
-
     public GameObject turtleBtn;
     private Vector3 clickPosition;
     public Vector3[,] tilePositions;
@@ -44,6 +43,7 @@ public class GameDirector : MonoBehaviour
             lights[i].SetActive(true);
             lights[i].GetComponent<Image>().color = new Color(0, 1, 1);
         }
+        tileSize = 120f / columnSize;
         playerTiles = new List<Vector2>();
         playerTiles.Clear();
         playerTiles.Add(playerStartTile);
