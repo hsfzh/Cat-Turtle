@@ -14,7 +14,6 @@ public class TestDirector : MonoBehaviour
     public GameObject[] playerBtns;
     public Vector2 playerStartTile;
     public int maxLights;
-    private Vector3 clickPosition;
     public GameObject light, lightBoard;
     
     // Start is called before the first frame update

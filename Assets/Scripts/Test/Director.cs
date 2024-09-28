@@ -12,7 +12,7 @@ public class Director:MonoBehaviour
     public GameObject[] playerBtns;
     public List<Vector2> playerTiles;
     public Vector2 playerStartTile;
-    public GameObject[,] lights;
+    public List<GameObject> lights;
     public int curLights;
     public int onLights;
     public int maxLights;
@@ -50,6 +50,10 @@ public class Director:MonoBehaviour
         tileParent = tp;
         this.light = light;
         lightParent = lp;
+        playerTiles = new List<Vector2>();
+        playerTiles.Clear();
+        lights = new List<GameObject>();
+        lights.Clear();
         for (int i = 0; i < rowSize; i++)
         {
             for (int j = 0; j < columnSize; j++)
@@ -71,14 +75,25 @@ public class Director:MonoBehaviour
         {
             lightColumn = maxLights / 4;
         }
-        lights = new GameObject[lightColumn, 4];
         for (int i = 0; i < lightColumn; i++)
         {
             for (int j = 0; j < 4; j++)
             {
                 GameObject l = CreateLight();
-                l.transform.localScale = new Vector3(1 / (float)lightColumn, 1f / 4f, 0);
-                lights[i, j] = l;
+                float x = 1/5f;
+                float y = 1/8f;
+                l.transform.localScale = new Vector3(x, y, 0);
+                Vector2 pos = new Vector2(-0.5f + x * (j + 0.5f)+0.2f*x*(j+1), 0.5f - y * (i + 0.5f)-0.2f*y*(i+1));
+                l.transform.localPosition = pos;
+                if (lights.Count < lightMax)
+                {
+                    lights.Add(l);
+                }
+                else
+                {
+                    Destroy(l);
+                }
+                
             }
         }
     }
