@@ -9,10 +9,11 @@ public class GameDirector : MonoBehaviour
     public GameObject player;
     public GameObject slime, cat, turtle;
     public Vector3 slimePos, catPos, turtlePos;
-    [SerializeField] private GameObject[] row1, row2, row3, row4, row5, row6;
-    public int rowSize = 6;
-    public int columnSize = 8;
+    public int rowSize;
+    public int columnSize;
     public float tileSize;
+    public float tileSizeX;
+    public float tileSizeY;
     public GameObject slimeBtn;
     public GameObject catBtn;
     public GameObject turtleBtn;
@@ -21,10 +22,11 @@ public class GameDirector : MonoBehaviour
     public GameObject[,] tiles;
     private List<Vector2> playerTiles;
     public Vector2 playerStartTile;
-    public GameObject[] lights;
-    public int curLights;
+    public List<GameObject> lights;
+    private int curLights;
     private int onLights;
-    private int maxLights = 11;
+    public int maxLights;
+    public GameObject tile, tileParent, lightPrefab, lightParent;
 
     // Start is called before the first frame update
     private void Start()
@@ -35,15 +37,11 @@ public class GameDirector : MonoBehaviour
         slime.transform.position = slimePos;
         cat.transform.position = catPos;
         turtle.transform.position = turtlePos;
-        curLights = 1;
-        onLights = 1;
-        lights[0].SetActive(false);
-        for (int i = 1; i < maxLights; i++)
-        {
-            lights[i].SetActive(true);
-            lights[i].GetComponent<Image>().color = new Color(0, 1, 1);
-        }
+        curLights = 0;
+        onLights = 0;
         tileSize = 120f / columnSize;
+        tileSizeX = 1f / (float)columnSize;
+        tileSizeY = 1f / (float)rowSize;
         playerTiles = new List<Vector2>();
         playerTiles.Clear();
         playerTiles.Add(playerStartTile);
@@ -52,40 +50,10 @@ public class GameDirector : MonoBehaviour
         turtleBtn.SetActive(false);
         player = slime;
         tiles = new GameObject [rowSize, columnSize];
-        for (var i = 0; i < rowSize; i++)
-        for (var j = 0; j < columnSize; j++)
-            switch (i + 1)
-            {
-                case 1:
-                    tiles[i, j] = row1[j];
-                    break;
-                case 2:
-                    tiles[i, j] = row2[j];
-                    break;
-                case 3:
-                    tiles[i, j] = row3[j];
-                    break;
-                case 4:
-                    tiles[i, j] = row4[j];
-                    break;
-                case 5:
-                    tiles[i, j] = row5[j];
-                    break;
-                case 6:
-                    tiles[i, j] = row6[j];
-                    break;
-            }
-
         tilePositions = new Vector3[rowSize, columnSize];
-        for (var i = 0; i < rowSize; i++)
-        for (var j = 0; j < columnSize; j++)
-        {
-            if (i == 4 && j == 0)
-                tiles[i, j].SetActive(false);
-            else
-                tiles[i, j].SetActive(true);
-            tilePositions[i, j] = tiles[i, j].transform.position;
-        }
+        lights.Clear();
+        MakeTile();
+        MakeLight();
     }
 
     // Update is called once per frame
@@ -135,26 +103,97 @@ public class GameDirector : MonoBehaviour
                     if (x && y && z)
                     {
                         Vector2 tile = new Vector2(i, j);
-                        if (tiles[i, j].activeSelf && curLights<maxLights)
+                        if (tiles[i, j].activeSelf && curLights<maxLights-1)
                         {
                             tiles[i, j].SetActive(false);
-                            lights[curLights].GetComponent<Image>().color = new Color(0, 0, 0);
+                            lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
                             curLights += 1;
                         }
-                        else if(!playerTiles.Contains(tile) && curLights<=maxLights && !tiles[i,j].activeSelf)
+                        else if(!playerTiles.Contains(tile) && curLights<=maxLights-1 && !tiles[i,j].activeSelf)
                         {
                             tiles[i, j].SetActive(true);
                             curLights -= 1;
-                            lights[curLights].GetComponent<Image>().color = new Color(0, 1, 1);
+                            lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
                             
                         }
+                        Debug.Log("onLights: "+onLights+" curLights: "+curLights);
                         break;
                     }
                 }
             }
-            if(onLights<maxLights)
+            if(onLights<maxLights-1)
                 CheckLights();
         }
+    }
+    public void MakeTile()
+    {
+        for (int i = 0; i < rowSize; i++)
+        {
+            for (int j = 0; j < columnSize; j++)
+            {
+                GameObject t=CreateTile();
+                t.transform.localScale = new Vector3(1 / (float)columnSize, 1 / (float)rowSize, 0);
+                Vector2 pos = new Vector2(-0.5f+tileSizeX*(j+0.5f), 0.5f-tileSizeY*(i+0.5f));
+                t.transform.localPosition = pos;
+                tiles[i, j] = t;
+                tilePositions[i, j] = tiles[i,j].transform.position;
+                if (i == playerStartTile.x && j == playerStartTile.y)
+                {
+                    tiles[i,j].SetActive(false);
+                }
+                else
+                {
+                    tiles[i,j].SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void MakeLight()
+    {
+        int lightColumn = 0;
+        if (maxLights % 4 != 0)
+        {
+            lightColumn = maxLights / 4 + 1;
+        }
+        else
+        {
+            lightColumn = maxLights / 4;
+        }
+        for (int i = 0; i < lightColumn; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                GameObject l = CreateLight();
+                float x = 1/5f;
+                float y = 1/8f;
+                l.transform.localScale = new Vector3(x, y, 0);
+                Vector2 pos = new Vector2(-0.5f + x * (j + 0.5f)+0.2f*x*(j+1), 0.5f - y * (i + 0.5f)-0.2f*y*(i+1));
+                l.transform.localPosition = pos;
+                if (lights.Count<maxLights-1)
+                {
+                    lights.Add(l);
+                }
+                else
+                {
+                    Destroy(l);
+                }
+            }
+        }
+        lights.Reverse();
+    }
+    public GameObject CreateTile()
+    {
+        GameObject t = Instantiate(tile);
+        t.transform.parent = tileParent.transform;
+        return t;
+    }
+
+    public GameObject CreateLight()
+    {
+        GameObject l = Instantiate(lightPrefab);
+        l.transform.parent = lightParent.transform;
+        return l;
     }
     public void CheckLights()
     {
@@ -208,6 +247,14 @@ public class GameDirector : MonoBehaviour
 
     public void Reset()
     {
+        for (int i = 0; i < rowSize; i++)
+        {
+            for (int j = 0; j < columnSize; j++)
+            {
+                Destroy(tiles[i,j]);
+            }
+        }
+        lights.Clear();
         Start();
     }
 }

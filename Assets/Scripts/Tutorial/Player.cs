@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Player
+public class Player:MonoBehaviour
 {
     public GameObject director;
-    public readonly float jumpForce;
-    public readonly GameObject player;
+    public float jumpForce;
+    public GameObject player;
 
     public float speed;
     public bool active;
@@ -14,12 +14,8 @@ public class Player
     public bool isJump;
     public bool left, right, up, down;
     public Rigidbody2D rigid;
-
-    public Player()
-    {
-        
-    }
-    public Player(GameObject d, GameObject p, GameObject b, float s, float j, bool a)
+    
+    public virtual void Initialize(GameObject d, GameObject p, GameObject b, float s, float j, bool a)
     {
         director = d;
         player = p;
@@ -51,9 +47,8 @@ public class Player
         }
     }
 
-    public virtual void Move()
+    public void DetectInput()
     {
-        DetectGround();
         if (Input.GetKey(KeyCode.A)) button.GetComponent<ButtonController>().left = true;
         if (Input.GetKey(KeyCode.D)) button.GetComponent<ButtonController>().right = true;
         if (Input.GetKey(KeyCode.W)) button.GetComponent<ButtonController>().up = true;
@@ -62,19 +57,23 @@ public class Player
         right = button.GetComponent<ButtonController>().right;
         up = button.GetComponent<ButtonController>().up;
         down = button.GetComponent<ButtonController>().down;
+        if (Input.GetKeyUp(KeyCode.A)) button.GetComponent<ButtonController>().left = false;
+        if (Input.GetKeyUp(KeyCode.D)) button.GetComponent<ButtonController>().right = false;
+        if (Input.GetKeyUp(KeyCode.W)) button.GetComponent<ButtonController>().up = false;
+        if (Input.GetKeyUp(KeyCode.S)) button.GetComponent<ButtonController>().down = false;
+    }
+    public virtual void Move()
+    {
+        DetectGround();
+        DetectInput();
         if (left) direction = -1;
         if (right) direction = 1;
-        if ((up || Input.GetKeyDown(KeyCode.W)) && isJump == false)
+        if (up && isJump == false)
         {
             isJump = true;
             rigid.velocity = new Vector2(rigid.velocity.x, 0);
             rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         }
-
-        if (Input.GetKeyUp(KeyCode.A)) button.GetComponent<ButtonController>().left = false;
-        if (Input.GetKeyUp(KeyCode.D)) button.GetComponent<ButtonController>().right = false;
-        if (Input.GetKeyUp(KeyCode.W)) button.GetComponent<ButtonController>().up = false;
-        if (Input.GetKeyUp(KeyCode.S)) button.GetComponent<ButtonController>().down = false;
         if (!left && !right) direction = 0;
         player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
         if (direction != 0) facing = direction;
@@ -83,8 +82,12 @@ public class Player
     public void SetActive()
     {
         if (director.GetComponent<GameDirector>().player == player)
+        {
             active = true;
+        }
         else
+        {
             active = false;
+        }
     }
 }

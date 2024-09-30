@@ -12,12 +12,14 @@ public class SlimeController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        player = new Player(director, self, button, speed, jumpForce, true);
+        player = self.AddComponent<Player>();
+        player.Initialize(director, self, button, speed, jumpForce, false);
     }
 
     // Update is called once per frame
     private void Update()
     {
+        Debug.DrawRay(transform.position, new Vector2(0, -1)*4f, new Color(1,0,0));
         if (Time.timeScale != 0)
         {
             player.SetActive();

@@ -4,36 +4,64 @@ public class CatPlayer : Player
 {
     public bool climb;
     public float delay;
+    public bool climbR;
 
-    public CatPlayer(GameObject d, GameObject p, GameObject b, float s, float j, bool a) : base(d, p, b, s, j, a)
+    public override void Initialize(GameObject d, GameObject p, GameObject b, float s, float j, bool a)
     {
+        base.Initialize(d, p, b, s, j, a);
         climb = false;
         delay = 0.5f;
+        climbR = true;
     }
+
     public override void Move()
     {
-        base.Move();
-        //고양이 기어올라가기
         if (climb)
         {
-            left = right = false;
+            DetectInput();
+            rigid.velocity = Vector2.zero;
             Debug.Log(delay);
             delay -= Time.deltaTime;
-            rigid.velocity=Vector2.zero;
             rigid.gravityScale = 10f;
             if (up)
             {
                 player.transform.Translate(new Vector2(0, 1 * speed * Time.deltaTime), Space.World);
                 delay = 0.5f;
             }
-
             if (down)
             {
                 player.transform.Translate(new Vector2(0,-1*speed*Time.deltaTime),Space.World);
                 delay = 0.5f;
             }
+            if (climbR)
+            {
+                if (left)
+                {
+                    direction = -1;
+                }
+                else
+                {
+                    direction = 0;
+                }
+            }
+            else
+            {
+                if (right)
+                {
+                    direction=1;
+                }
+                else
+                {
+                    direction = 0;
+                }
+            }
+            player.transform.Translate(new Vector2(direction,0)*speed*Time.deltaTime, Space.World);
             if (delay <= 0)
                 climb = false;
+        }
+        else
+        {
+            base.Move();
         }
     }
 }
@@ -45,14 +73,15 @@ public class CatController : MonoBehaviour
     public float speed;
     public float jumpForce;
 
-    private CatPlayer player;
+    public CatPlayer player;
     private float distance;
     private bool turn, turnBack;
 
     // Start is called before the first frame update
     private void Start()
     {
-        player = new CatPlayer(director, self, button, speed, jumpForce, false);
+        player = self.AddComponent<CatPlayer>();
+        player.Initialize(director, self, button, speed, jumpForce, false);
         turn = false;
         turnBack = false;
         distance = 7.5f;
@@ -77,6 +106,7 @@ public class CatController : MonoBehaviour
                     {
                         if (player.left)
                         {
+                            player.climbR = false;
                             player.climb = true;
                             player.delay = 0.5f;
                         }
@@ -85,6 +115,7 @@ public class CatController : MonoBehaviour
                     {
                         if (player.right)
                         {
+                            player.climbR = true;
                             player.climb = true;
                             player.delay=0.5f;
                         }
@@ -115,7 +146,7 @@ public class CatController : MonoBehaviour
                             turn = true;
                         }
                     }
-                    distance = 3.5f;
+                    distance = 3.75f;
                 }
                 else
                 {
@@ -124,6 +155,10 @@ public class CatController : MonoBehaviour
                     player.rigid.gravityScale = 4.5f;
                     if (!turnBack)
                     {
+                        if (player.up)
+                        {
+                            player.transform.Translate(Vector2.up*5f, Space.World);
+                        }
                         if (transform.localRotation == Quaternion.Euler(0, 0, -90))
                         {
                             transform.position += new Vector3(4f, 0, 0);
@@ -132,6 +167,7 @@ public class CatController : MonoBehaviour
                         {
                             transform.position += new Vector3(-4f, 0, 0);
                         }
+                        turnBack = true;
                     }
                     transform.localRotation = Quaternion.Euler(0, 0, 0);
                     player.delay = 0.5f;

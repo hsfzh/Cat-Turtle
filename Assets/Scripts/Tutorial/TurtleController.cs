@@ -13,7 +13,8 @@ public class TurtleController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        player = new Player(director, self, button, speed, jumpForce, false);
+        player = self.AddComponent<Player>();
+        player.Initialize(director, self, button, speed, jumpForce, false);
     }
 
     // Update is called once per frame
