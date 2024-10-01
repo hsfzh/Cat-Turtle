@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player:MonoBehaviour
 {
+    public SceneDirector sDirector;
     public GameObject director;
     public float jumpForce;
     public GameObject player;
@@ -15,8 +16,9 @@ public class Player:MonoBehaviour
     public bool left, right, up, down;
     public Rigidbody2D rigid;
     
-    public virtual void Initialize(GameObject d, GameObject p, GameObject b, float s, float j, bool a)
+    public virtual void Initialize(SceneDirector s, GameObject d, GameObject p, GameObject b, float sp, float j, bool a)
     {
+        sDirector = s;
         director = d;
         player = p;
         button = b;
@@ -27,7 +29,7 @@ public class Player:MonoBehaviour
         up = false;
         down = false;
         isJump = false;
-        speed = s;
+        speed = sp;
         rigid = player.GetComponent<Rigidbody2D>();
         jumpForce = j;
         active = a;
@@ -64,19 +66,24 @@ public class Player:MonoBehaviour
     }
     public virtual void Move()
     {
-        DetectGround();
-        DetectInput();
-        if (left) direction = -1;
-        if (right) direction = 1;
-        if (up && isJump == false)
+        if (!sDirector.lightMove)
         {
-            isJump = true;
-            rigid.velocity = new Vector2(rigid.velocity.x, 0);
-            rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            DetectGround();
+            DetectInput();
+            if (player.name == "Turtle")
+                up = false;
+            if (left) direction = -1;
+            if (right) direction = 1;
+            if (up && isJump == false)
+            {
+                isJump = true;
+                rigid.velocity = new Vector2(rigid.velocity.x, 0);
+                rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            }
+            if (!left && !right) direction = 0;
+            player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
+            if (direction != 0) facing = direction;
         }
-        if (!left && !right) direction = 0;
-        player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
-        if (direction != 0) facing = direction;
     }
 
     public void SetActive()

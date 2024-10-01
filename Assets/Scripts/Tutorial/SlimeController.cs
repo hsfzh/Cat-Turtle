@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class SlimeController : MonoBehaviour
 {
+    public SceneDirector sDirector;
     public GameObject director;
     public GameObject self;
     public GameObject button;
@@ -13,7 +14,7 @@ public class SlimeController : MonoBehaviour
     private void Start()
     {
         player = self.AddComponent<Player>();
-        player.Initialize(director, self, button, speed, jumpForce, false);
+        player.Initialize(sDirector, director, self, button, speed, jumpForce, false);
     }
 
     // Update is called once per frame

@@ -5,11 +5,13 @@ public class SceneDirector : MonoBehaviour
 {
     public GameObject menuSet;
     public GameObject ResetSet;
+    public bool lightMove;
     // Start is called before the first frame update
     private void Start()
     {
         menuSet.SetActive(false);
         ResetSet.SetActive(false);
+        lightMove = false;
     }
 
     // Update is called once per frame

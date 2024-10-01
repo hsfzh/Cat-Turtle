@@ -661,10 +661,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d17c8673b9095e45a4304a8afd4cae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sDirector: {fileID: 1794446158}
   director: {fileID: 227755909}
   self: {fileID: 83442174}
   button: {fileID: 471996292}
-  speed: 15
+  speed: 20
   jumpForce: 40
   player: {fileID: 0}
 --- !u!1 &162122022
@@ -882,7 +883,6 @@ MonoBehaviour:
   turtleBtn: {fileID: 1352317926}
   playerStartTile: {x: 4, y: 0}
   lights: []
-  curLights: 0
   maxLights: 11
   tile: {fileID: 1031546955450788131, guid: efb9d5c3feb489f49b8e80650246575d, type: 3}
   tileParent: {fileID: 733778841}
@@ -2239,6 +2239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df11e199aecc03b43a775065becc5f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sDirector: {fileID: 1794446158}
   director: {fileID: 227755909}
   self: {fileID: 808144724}
   button: {fileID: 471996292}
@@ -4799,6 +4800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuSet: {fileID: 2125156463}
   ResetSet: {fileID: 2087544171}
+  lightMove: 0
 --- !u!4 &1794446159
 Transform:
   m_ObjectHideFlags: 0
@@ -5830,10 +5832,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d1e5754d5b4dc4eac2841230c24ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sDirector: {fileID: 1794446158}
   director: {fileID: 227755909}
   self: {fileID: 2119749805}
   button: {fileID: 471996292}
-  speed: 15
+  speed: 20
   jumpForce: 30
 --- !u!1 &2120833381
 GameObject:

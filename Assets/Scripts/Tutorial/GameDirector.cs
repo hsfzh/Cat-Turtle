@@ -82,48 +82,69 @@ public class GameDirector : MonoBehaviour
                 turtleBtn.SetActive(false);
             }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                clickPosition = Input.mousePosition;
-                clickPosition = Camera.main.ScreenToWorldPoint(clickPosition);
-                var x = false;
-                var y = false;
-                var z = false;
-                for (var i = 0; i < rowSize; i++)
-                for (var j = 0; j < columnSize; j++)
-                {
-                    x = clickPosition.x > tilePositions[i, j].x - tileSize / 2 &&
-                        clickPosition.x < tilePositions[i, j].x + tileSize / 2;
-                    y = clickPosition.y > tilePositions[i, j].y - tileSize / 2 &&
-                        clickPosition.y < tilePositions[i, j].y + tileSize / 2;
-                    z = !(player.transform.position.x > tilePositions[i, j].x - tileSize / 2 &&
-                          player.transform.position.x < tilePositions[i, j].x + tileSize / 2 &&
-                          player.transform.position.y > tilePositions[i, j].y - tileSize / 2 &&
-                          player.transform.position.y < tilePositions[i, j].y + tileSize / 2);
-                    if (x && y && z)
-                    {
-                        Vector2 tile = new Vector2(i, j);
-                        if (tiles[i, j].activeSelf && curLights<maxLights-1)
-                        {
-                            tiles[i, j].SetActive(false);
-                            lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
-                            curLights += 1;
-                        }
-                        else if(!playerTiles.Contains(tile) && curLights<=maxLights-1 && !tiles[i,j].activeSelf)
-                        {
-                            tiles[i, j].SetActive(true);
-                            curLights -= 1;
-                            lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
-                            
-                        }
-                        Debug.Log("onLights: "+onLights+" curLights: "+curLights);
-                        break;
-                    }
-                }
-            }
+            CheckClick();
             if(onLights<maxLights-1)
                 CheckLights();
         }
+    }
+
+    public void CheckClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            clickPosition = Input.mousePosition;
+            clickPosition = Camera.main.ScreenToWorldPoint(clickPosition);
+            var x = false;
+            var y = false;
+            var z = false;
+            for (var i = 0; i < rowSize; i++)
+            for (var j = 0; j < columnSize; j++)
+            {
+                x = clickPosition.x > tilePositions[i, j].x - tileSize / 2 &&
+                    clickPosition.x < tilePositions[i, j].x + tileSize / 2;
+                y = clickPosition.y > tilePositions[i, j].y - tileSize / 2 &&
+                    clickPosition.y < tilePositions[i, j].y + tileSize / 2;
+                z = !(player.transform.position.x > tilePositions[i, j].x - tileSize / 2 &&
+                      player.transform.position.x < tilePositions[i, j].x + tileSize / 2 &&
+                      player.transform.position.y > tilePositions[i, j].y - tileSize / 2 &&
+                      player.transform.position.y < tilePositions[i, j].y + tileSize / 2);
+                if (x && y && z)
+                {
+                    var tile = new Vector2(i, j);
+                    if (tiles[i, j].activeSelf && curLights < maxLights - 1)
+                    {
+                        tiles[i, j].SetActive(false);
+                        lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                        Vector4 lightPath=SetLightPath(lights[curLights].transform.position.x,
+                            lights[curLights].transform.position.y, tilePositions[i,j].x, tilePositions[i,j].y);
+                        GameObject l = Instantiate(lightPrefab);
+                        l.transform.position = l.GetComponent<LightMove>().pos = lights[curLights].transform.position;
+                        l.GetComponent<LightMove>().x = lights[curLights].transform.position.x;
+                        l.GetComponent<LightMove>().direc = lightPath;
+                        l.GetComponent<LightMove>().move = true;
+                        curLights += 1;
+                    }
+                    else if (!playerTiles.Contains(tile) && curLights <= maxLights - 1 && !tiles[i, j].activeSelf)
+                    {
+                        tiles[i, j].SetActive(true);
+                        curLights -= 1;
+                        lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    public Vector4 SetLightPath(float a, float b, float c, float d)
+    {
+        Debug.Log(a+" "+b+" "+c+" "+d);
+        float r = -Mathf.Abs((b-d)/(a*a-c*c+2*(a-c)*(5-a)));
+        float p = 2f*r*(5-a);
+        float q = -r*a*a-p*a+b;
+        Debug.Log(r+" "+p+" "+q);
+        float dist = a - c;
+        return new Vector4(r, p, q, dist);
     }
     public void MakeTile()
     {

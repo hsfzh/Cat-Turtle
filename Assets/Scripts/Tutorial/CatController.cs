@@ -6,9 +6,9 @@ public class CatPlayer : Player
     public float delay;
     public bool climbR;
 
-    public override void Initialize(GameObject d, GameObject p, GameObject b, float s, float j, bool a)
+    public override void Initialize(SceneDirector s, GameObject d, GameObject p, GameObject b, float sp, float j, bool a)
     {
-        base.Initialize(d, p, b, s, j, a);
+        base.Initialize(s, d, p, b, sp, j, a);
         climb = false;
         delay = 0.5f;
         climbR = true;
@@ -16,7 +16,7 @@ public class CatPlayer : Player
 
     public override void Move()
     {
-        if (climb)
+        if (climb && !sDirector.lightMove)
         {
             DetectInput();
             rigid.velocity = Vector2.zero;
@@ -67,6 +67,7 @@ public class CatPlayer : Player
 }
 public class CatController : MonoBehaviour
 {
+    public SceneDirector sDirector;
     public GameObject director;
     public GameObject self;
     public GameObject button;
@@ -81,7 +82,7 @@ public class CatController : MonoBehaviour
     private void Start()
     {
         player = self.AddComponent<CatPlayer>();
-        player.Initialize(director, self, button, speed, jumpForce, false);
+        player.Initialize(sDirector, director, self, button, speed, jumpForce, false);
         turn = false;
         turnBack = false;
         distance = 7.5f;
