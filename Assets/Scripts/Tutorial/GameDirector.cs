@@ -20,6 +20,7 @@ public class GameDirector : MonoBehaviour
     private Vector3 clickPosition;
     public Vector3[,] tilePositions;
     public GameObject[,] tiles;
+    public bool[,] tileClicked;
     private List<Vector2> playerTiles;
     public Vector2 playerStartTile;
     public List<GameObject> lights;
@@ -51,6 +52,14 @@ public class GameDirector : MonoBehaviour
         player = slime;
         tiles = new GameObject [rowSize, columnSize];
         tilePositions = new Vector3[rowSize, columnSize];
+        tileClicked = new bool[rowSize, columnSize];
+        for (int i = 0; i < rowSize; i++)
+        {
+            for (int j = 0; j < columnSize; j++)
+            {
+                tileClicked[i, j] = false;
+            }
+        }
         lights.Clear();
         MakeTile();
         MakeLight();
@@ -111,21 +120,24 @@ public class GameDirector : MonoBehaviour
                 if (x && y && z)
                 {
                     var tile = new Vector2(i, j);
-                    if (tiles[i, j].activeSelf && curLights < maxLights - 1)
+                    if (tiles[i, j].activeSelf && curLights < maxLights - 1 && tileClicked[i,j]==false)
                     {
-                        tiles[i, j].SetActive(false);
+                        tileClicked[i, j] = true;
                         lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
-                        Vector4 lightPath=SetLightPath(lights[curLights].transform.position.x,
+                        Vector3[] lightPath=SetLightPath(lights[curLights].transform.position.x,
                             lights[curLights].transform.position.y, tilePositions[i,j].x, tilePositions[i,j].y);
                         GameObject l = Instantiate(lightPrefab);
-                        l.transform.position = l.GetComponent<LightMove>().pos = lights[curLights].transform.position;
-                        l.GetComponent<LightMove>().x = lights[curLights].transform.position.x;
-                        l.GetComponent<LightMove>().direc = lightPath;
-                        l.GetComponent<LightMove>().move = true;
+                        LightMove lScript = l.GetComponent<LightMove>();
+                        l.transform.position = lScript.pos = lights[curLights].transform.position;
+                        lScript.tile = tiles[i, j];
+                        lScript.x = lights[curLights].transform.position.x;
+                        lScript.direc = lightPath;
+                        lScript.move = true;
                         curLights += 1;
                     }
                     else if (!playerTiles.Contains(tile) && curLights <= maxLights - 1 && !tiles[i, j].activeSelf)
                     {
+                        tileClicked[i, j] = false;
                         tiles[i, j].SetActive(true);
                         curLights -= 1;
                         lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 1, 1);
@@ -136,15 +148,19 @@ public class GameDirector : MonoBehaviour
         }
     }
 
-    public Vector4 SetLightPath(float a, float b, float c, float d)
+    public Vector3[] SetLightPath(float a, float b, float c, float d)
     {
         Debug.Log(a+" "+b+" "+c+" "+d);
         float r = -Mathf.Abs((b-d)/(a*a-c*c+2*(a-c)*(5-a)));
         float p = 2f*r*(5-a);
         float q = -r*a*a-p*a+b;
         Debug.Log(r+" "+p+" "+q);
-        float dist = a - c;
-        return new Vector4(r, p, q, dist);
+        float distX = a - c;
+        float distY = b - d;
+        Vector3[] path = new Vector3[2];
+        path[0] = new Vector3(r, p, q);
+        path[1] = new Vector3(distX, distY, 0);
+        return path;
     }
     public void MakeTile()
     {
