@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8221461389873654016}
   - component: {fileID: 3066646740662339429}
   - component: {fileID: -8749974360089059451}
+  - component: {fileID: 3262787098177705857}
   m_Layer: 0
   m_Name: butterfly
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 1281180765
   m_SortingLayer: 4
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0.16269647, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: f2b5403f4ec3a4a4ab9aee845a9e1fcd, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,3 +100,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   radius: 5
+--- !u!114 &3262787098177705857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970905441078538603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48032216a95b71544b26c538bb6b1a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  img: {fileID: 0}
+  sprite: {fileID: 0}
+  startAlpha: 255
+  startDirec: -1
