@@ -20,7 +20,6 @@ public class CatPlayer : Player
         {
             DetectInput();
             rigid.velocity = Vector2.zero;
-            Debug.Log(delay);
             delay -= Time.deltaTime;
             rigid.gravityScale = 10f;
             if (up)
@@ -75,7 +74,7 @@ public class CatController : MonoBehaviour
     public float jumpForce;
 
     public CatPlayer player;
-    private float distance;
+    public float distance;
     private bool turn, turnBack;
 
     // Start is called before the first frame update
@@ -85,7 +84,6 @@ public class CatController : MonoBehaviour
         player.Initialize(sDirector, director, self, button, speed, jumpForce, false);
         turn = false;
         turnBack = false;
-        distance = 7.5f;
     }
 
     // Update is called once per frame
@@ -105,6 +103,7 @@ public class CatController : MonoBehaviour
                 {
                     if (rayHitL.collider != null)
                     {
+                        Debug.Log("감지");
                         if (player.left)
                         {
                             player.climbR = false;
@@ -134,7 +133,6 @@ public class CatController : MonoBehaviour
                         transform.localRotation = Quaternion.Euler(0, 0, -90);
                         if (!turn)
                         {
-                            transform.position += new Vector3(-4f, 0, 0);
                             turn = true;
                         }
                     }
@@ -143,30 +141,19 @@ public class CatController : MonoBehaviour
                         transform.localRotation = Quaternion.Euler(0, 0, 90);
                         if (!turn)
                         {
-                            transform.position += new Vector3(4f, 0, 0);
                             turn = true;
                         }
                     }
-                    distance = 3.75f;
                 }
                 else
                 {
                     turn = false;
-                    distance = 7.5f;
                     player.rigid.gravityScale = 4.5f;
                     if (!turnBack)
                     {
                         if (player.up)
                         {
-                            player.transform.Translate(Vector2.up*5f, Space.World);
-                        }
-                        if (transform.localRotation == Quaternion.Euler(0, 0, -90))
-                        {
-                            transform.position += new Vector3(4f, 0, 0);
-                        }
-                        else if (transform.localRotation == Quaternion.Euler(0, 0, 90))
-                        {
-                            transform.position += new Vector3(-4f, 0, 0);
+                            player.transform.Translate(Vector2.up*10f, Space.World);
                         }
                         turnBack = true;
                     }

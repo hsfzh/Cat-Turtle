@@ -34,7 +34,6 @@ public class LightMove : MonoBehaviour
             if (x <= pos.x - dist.x)
             {
                 move = false;
-                Debug.Log("arrive");
                 sDirector.lightMove = false;
                 if (tile != null)
                 {

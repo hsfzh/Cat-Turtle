@@ -150,11 +150,9 @@ public class GameDirector : MonoBehaviour
 
     public Vector3[] SetLightPath(float a, float b, float c, float d)
     {
-        Debug.Log(a+" "+b+" "+c+" "+d);
         float r = -Mathf.Abs((b-d)/(a*a-c*c+2*(a-c)*(5-a)));
         float p = 2f*r*(5-a);
         float q = -r*a*a-p*a+b;
-        Debug.Log(r+" "+p+" "+q);
         float distX = a - c;
         float distY = b - d;
         Vector3[] path = new Vector3[2];

@@ -38,7 +38,7 @@ public class Player:MonoBehaviour
     private void DetectGround()
     {
         var rayHit =
-            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 7.5f, LayerMask.GetMask("Ground", "Tile"));
+            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 6.6f, LayerMask.GetMask("Ground", "Tile"));
         if (rayHit.collider != null)
         {
             isJump = false;

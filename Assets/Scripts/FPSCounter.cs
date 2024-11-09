@@ -9,8 +9,4 @@ public class FPSCounter : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
-    private void Update()
-    {
-        Debug.Log(1/Time.deltaTime);
-    }
 }

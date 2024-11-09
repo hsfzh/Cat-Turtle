@@ -29,7 +29,6 @@ public class Shiny_Control : MonoBehaviour
     void Update()
     {
         alpha = Mathf.PingPong(Time.time * speed, 255 - 51) + 51;
-        Debug.Log(alpha);
         sprite.color = new Color(1,1,1, alpha/255);
     }
 }
