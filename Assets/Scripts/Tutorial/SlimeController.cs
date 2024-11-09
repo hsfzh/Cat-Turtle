@@ -20,7 +20,7 @@ public class SlimeController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.DrawRay(transform.position, new Vector2(0, -1)*4f, new Color(1,0,0));
+        Debug.DrawRay(transform.position, new Vector2(0, -1)*7.5f, new Color(1,0,0));
         if (Time.timeScale != 0)
         {
             player.SetActive();

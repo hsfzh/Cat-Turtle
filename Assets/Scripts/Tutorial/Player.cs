@@ -38,7 +38,7 @@ public class Player:MonoBehaviour
     private void DetectGround()
     {
         var rayHit =
-            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 3.75f, LayerMask.GetMask("Ground", "Tile"));
+            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 7.5f, LayerMask.GetMask("Ground", "Tile"));
         if (rayHit.collider != null)
         {
             isJump = false;
@@ -70,8 +70,6 @@ public class Player:MonoBehaviour
         {
             DetectGround();
             DetectInput();
-            if (player.name == "Turtle")
-                up = false;
             if (left) direction = -1;
             if (right) direction = 1;
             if (up && isJump == false)
@@ -79,8 +77,7 @@ public class Player:MonoBehaviour
                 isJump = true;
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
                 rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            }
-            if (!left && !right) direction = 0;
+            } if (!left && !right) direction = 0;
             player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
             if (direction != 0) facing = direction;
         }

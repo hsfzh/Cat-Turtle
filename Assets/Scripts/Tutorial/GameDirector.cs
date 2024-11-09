@@ -80,7 +80,7 @@ public class GameDirector : MonoBehaviour
             {
                 catBtn.SetActive(true);
             }
-            else if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 2)
+            else if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 4)
             {
                 turtleBtn.SetActive(true);
             }

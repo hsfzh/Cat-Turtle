@@ -11,11 +11,10 @@ public class ButterflyMove : MonoBehaviour
     private Vector2 path;
     private float angle;
     private Vector3 center;
-    private int direc;
+    public int direc;
     // Start is called before the first frame update
     void Start()
     {
-        direc = Random.Range(0, 2) == 0 ? -1 : 1;
         center.x = transform.position.x - direc*radius;
         center.y = transform.position.y;
         path.x = 0;
