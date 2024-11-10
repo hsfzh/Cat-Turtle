@@ -6,6 +6,8 @@ public class Player:MonoBehaviour
     public GameObject director;
     public float jumpForce;
     public GameObject player;
+    public GameObject[] lights;
+    public int lightNum;
 
     public float speed;
     public bool active;
@@ -16,11 +18,12 @@ public class Player:MonoBehaviour
     public bool left, right, up, down;
     public Rigidbody2D rigid;
     
-    public virtual void Initialize(SceneDirector s, GameObject d, GameObject p, GameObject b, float sp, float j, bool a)
+    public virtual void Initialize(SceneDirector s, GameObject d, GameObject p, GameObject[] l, GameObject b, float sp, float j, bool a)
     {
         sDirector = s;
         director = d;
         player = p;
+        lights = l;
         button = b;
         direction = 0;
         facing = 1;
@@ -80,6 +83,52 @@ public class Player:MonoBehaviour
             } if (!left && !right) direction = 0;
             player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
             if (direction != 0) facing = direction;
+        }
+    }
+
+    public void LightSpinning()
+    {
+        if (active)
+        {
+            for (int i = 0; i < lights.Length; i++)
+            {
+                lights[i].SetActive(true);
+                lights[i].transform.localPosition =
+                    new Vector3(
+                        10 * Mathf.Cos(Mathf.PI / 2 + Mathf.PI * 2 / 3 * i + Time.time) + player.transform.position.x,
+                        10 * Mathf.Sin(Mathf.PI / 2 + Mathf.PI * 2 / 3 * i + Time.time) + player.transform.position.y,
+                        0);
+            }
+            if (lightNum == 2)
+            {
+                lights[2].SetActive(false);
+            }
+            if (lightNum == 1)
+            {
+                lights[2].SetActive(false);
+                lights[1].SetActive(false);
+            }
+            if (lightNum == 0)
+            {
+                lights[2].SetActive(false);
+                lights[1].SetActive(false);
+                lights[0].SetActive(false);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < lights.Length; i++)
+            {
+                lights[i].SetActive(false);
+            }
+        }
+    }
+
+    public void LightOff()
+    {
+        for (int i = 0; i < lights.Length; i++)
+        {
+            lights[i].SetActive(false);
         }
     }
 

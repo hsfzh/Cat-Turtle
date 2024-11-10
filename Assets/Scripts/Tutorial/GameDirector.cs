@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class GameDirector : MonoBehaviour
 {
     public GameObject player;
+    public Player SlimeScript;
+    public Player CatScript;
+    public Player TurtleScript;
     public GameObject slime, cat, turtle;
     public Vector3 slimePos, catPos, turtlePos;
     public int rowSize;
@@ -68,6 +71,18 @@ public class GameDirector : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (SlimeScript == null)
+        {
+            SlimeScript = slime.GetComponent<Player>();
+        }
+        if (CatScript == null)
+        {
+            CatScript = cat.GetComponent<Player>();
+        }
+        if (TurtleScript == null)
+        {
+            TurtleScript = turtle.GetComponent<Player>();
+        }
         if (Time.timeScale != 0)
         {
             if (player != slime)
@@ -76,21 +91,28 @@ public class GameDirector : MonoBehaviour
                 catBtn.SetActive(false);
                 turtleBtn.SetActive(false);
             }
-            else if (Mathf.Abs((slime.transform.position - cat.transform.position).magnitude) <= 2)
-            {
-                catBtn.SetActive(true);
-            }
-            else if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 4)
-            {
-                turtleBtn.SetActive(true);
-            }
             else
             {
                 slimeBtn.SetActive(false);
-                catBtn.SetActive(false);
-                turtleBtn.SetActive(false);
+                if (Mathf.Abs((slime.transform.position - cat.transform.position).magnitude) <= 2)
+                {
+                    catBtn.SetActive(true);
+                }
+                else
+                {
+                    catBtn.SetActive(false);
+                }
+                if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 4)
+                {
+                    turtleBtn.SetActive(true);
+                }
+                else
+                {
+                    turtleBtn.SetActive(false);
+                }
             }
 
+            SlimeScript.lightNum = CatScript.lightNum = TurtleScript.lightNum = maxLights-curLights-1;
             CheckClick();
             if(onLights<maxLights-1)
                 CheckLights();
@@ -124,6 +146,7 @@ public class GameDirector : MonoBehaviour
                     {
                         tileClicked[i, j] = true;
                         lights[curLights].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0);
+                        /*
                         Vector3[] lightPath=SetLightPath(lights[curLights].transform.position.x,
                             lights[curLights].transform.position.y, tilePositions[i,j].x, tilePositions[i,j].y);
                         GameObject l = Instantiate(lightPrefab);
@@ -133,6 +156,8 @@ public class GameDirector : MonoBehaviour
                         lScript.x = lights[curLights].transform.position.x;
                         lScript.direc = lightPath;
                         lScript.move = true;
+                        */
+                        tiles[i, j].SetActive(false);
                         curLights += 1;
                     }
                     else if (!playerTiles.Contains(tile) && curLights <= maxLights - 1 && !tiles[i, j].activeSelf)
@@ -147,7 +172,7 @@ public class GameDirector : MonoBehaviour
             }
         }
     }
-
+    /*
     public Vector3[] SetLightPath(float a, float b, float c, float d)
     {
         float r = -Mathf.Abs((b-d)/(a*a-c*c+2*(a-c)*(5-a)));
@@ -160,6 +185,7 @@ public class GameDirector : MonoBehaviour
         path[1] = new Vector3(distX, distY, 0);
         return path;
     }
+    */
     public void MakeTile()
     {
         for (int i = 0; i < rowSize; i++)
@@ -257,6 +283,7 @@ public class GameDirector : MonoBehaviour
     {
         if (player == slime)
         {
+            SlimeScript.LightOff();
             player = cat;
             slime.SetActive(false);
         }
@@ -266,6 +293,7 @@ public class GameDirector : MonoBehaviour
     {
         if (player == slime)
         {
+            SlimeScript.LightOff();
             player = turtle;
             slime.SetActive(false);
         }
