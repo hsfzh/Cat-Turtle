@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1763784168613759776}
   - component: {fileID: 284774771799058843}
+  - component: {fileID: 7164293306583104210}
   m_Layer: 0
   m_Name: player light
   m_TagString: Untagged
@@ -84,3 +85,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7164293306583104210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5480385716716405001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0033f20b72d86c7428ccefe30e712144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direc: []
+  x: 0
+  y: 0
+  move: 0
+  pos: {x: 0, y: 0, z: 0}
+  tile: {fileID: 0}

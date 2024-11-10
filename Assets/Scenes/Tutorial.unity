@@ -553,8 +553,9 @@ MonoBehaviour:
   director: {fileID: 227755909}
   self: {fileID: 83442174}
   button: {fileID: 471996292}
-  speed: 20
+  speed: 25
   jumpForce: 40
+  height: 6.6
   player: {fileID: 0}
   lights:
   - {fileID: 232342394}
@@ -570,7 +571,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 83442174}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 935156c15a81fe947ac4f856af44b99f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -693,11 +694,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.20000076
+      value: -9.1
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.9
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.z
@@ -914,11 +915,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.20000076
+      value: -22.1
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.9
+      value: -11.1
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1626,11 +1627,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: -11.9
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.6000004
+      value: -28.6
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1855,11 +1856,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.5
+      value: -19.4
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.4
+      value: 3.7000008
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2330,8 +2331,9 @@ MonoBehaviour:
   director: {fileID: 227755909}
   self: {fileID: 808144724}
   button: {fileID: 471996292}
-  speed: 15
+  speed: 20
   jumpForce: 30
+  height: 2.6
   lights:
   - {fileID: 190130855}
   - {fileID: 533461687}
@@ -2345,7 +2347,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 808144724}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 935156c15a81fe947ac4f856af44b99f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2368,8 +2370,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.053160656, y: -0.13290979}
-  m_Size: {x: 12.019064, y: 5.161223}
+  m_Offset: {x: 0.05316068, y: 0.042476714}
+  m_Size: {x: 12.019068, y: 4.0212274}
   m_Direction: 1
 --- !u!1 &808467923
 GameObject:
@@ -2751,11 +2753,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 1.1000004
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.6000004
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4119,11 +4121,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.5
+      value: -32.4
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.4
+      value: -29.4
       objectReference: {fileID: 0}
     - target: {fileID: 8221461389873654016, guid: d58283e5fcd78404c90a570738caa013, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5251,7 +5253,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 1783933379}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 935156c15a81fe947ac4f856af44b99f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6025,7 +6027,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2082004269}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 935156c15a81fe947ac4f856af44b99f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6403,14 +6405,15 @@ MonoBehaviour:
   director: {fileID: 227755909}
   self: {fileID: 2119749805}
   button: {fileID: 471996292}
-  speed: 20
+  speed: 25
   jumpForce: 30
+  height: 6.6
   lights:
   - {fileID: 8970905441484300701}
   - {fileID: 1838404871}
   - {fileID: 796610662}
---- !u!61 &2119749811
-BoxCollider2D:
+--- !u!58 &2119749811
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -6418,7 +6421,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2119749805}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 935156c15a81fe947ac4f856af44b99f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -6441,19 +6444,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12, y: 13}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0.7012086, y: -1.0670576}
   serializedVersion: 2
-  m_Size: {x: 12, y: 13}
-  m_EdgeRadius: 0
+  m_Radius: 5.5244055
 --- !u!1 &2120833381
 GameObject:
   m_ObjectHideFlags: 0

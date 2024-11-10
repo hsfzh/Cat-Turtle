@@ -8,6 +8,7 @@ public class SlimeController : MonoBehaviour
     public GameObject button;
     public float speed;
     public float jumpForce;
+    public float height;
     private Player player;
     public GameObject[] lights;
 
@@ -15,13 +16,12 @@ public class SlimeController : MonoBehaviour
     private void Start()
     {
         player = self.AddComponent<Player>();
-        player.Initialize(sDirector, director, self, lights, button, speed, jumpForce, false);
+        player.Initialize(sDirector, director, self, lights, button, speed, jumpForce, false, height);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        Debug.DrawRay(transform.position, new Vector2(0, -1)*7.5f, new Color(1,0,0));
         if (Time.timeScale != 0)
         {
             player.SetActive();

@@ -17,8 +17,9 @@ public class Player:MonoBehaviour
     public bool isJump;
     public bool left, right, up, down;
     public Rigidbody2D rigid;
+    public float height;
     
-    public virtual void Initialize(SceneDirector s, GameObject d, GameObject p, GameObject[] l, GameObject b, float sp, float j, bool a)
+    public virtual void Initialize(SceneDirector s, GameObject d, GameObject p, GameObject[] l, GameObject b, float sp, float j, bool a, float h)
     {
         sDirector = s;
         director = d;
@@ -36,12 +37,13 @@ public class Player:MonoBehaviour
         rigid = player.GetComponent<Rigidbody2D>();
         jumpForce = j;
         active = a;
+        height = h;
     }
 
     private void DetectGround()
     {
         var rayHit =
-            Physics2D.Raycast(rigid.position, new Vector2(0, -1), 6.6f, LayerMask.GetMask("Ground", "Tile"));
+            Physics2D.Raycast(rigid.position, new Vector2(0, -1), height, LayerMask.GetMask("Ground", "Tile"));
         if (rayHit.collider != null)
         {
             isJump = false;
@@ -69,6 +71,7 @@ public class Player:MonoBehaviour
     }
     public virtual void Move()
     {
+        Debug.DrawRay(player.transform.position, new Vector2(0, -1)*height, new Color(1,0,0));
         if (!sDirector.lightMove)
         {
             DetectGround();
@@ -81,7 +84,8 @@ public class Player:MonoBehaviour
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
                 rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             } if (!left && !right) direction = 0;
-            player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
+            rigid.velocity = new Vector2(direction * speed, rigid.velocity.y);
+            //player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
             if (direction != 0) facing = direction;
         }
     }

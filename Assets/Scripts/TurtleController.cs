@@ -8,6 +8,7 @@ public class TurtleController : MonoBehaviour
     public GameObject button;
     public float speed;
     public float jumpForce;
+    public float height;
 
     private Player player;
     public GameObject[] lights;
@@ -16,7 +17,7 @@ public class TurtleController : MonoBehaviour
     private void Start()
     {
         player = self.AddComponent<Player>();
-        player.Initialize(sDirector, director, self, lights, button, speed, jumpForce, false);
+        player.Initialize(sDirector, director, self, lights, button, speed, jumpForce, false, height);
     }
 
     // Update is called once per frame

@@ -94,7 +94,7 @@ public class GameDirector : MonoBehaviour
             else
             {
                 slimeBtn.SetActive(false);
-                if (Mathf.Abs((slime.transform.position - cat.transform.position).magnitude) <= 2)
+                if (Mathf.Abs((slime.transform.position - cat.transform.position).magnitude) <= 6)
                 {
                     catBtn.SetActive(true);
                 }
@@ -102,7 +102,7 @@ public class GameDirector : MonoBehaviour
                 {
                     catBtn.SetActive(false);
                 }
-                if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 4)
+                if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 6)
                 {
                     turtleBtn.SetActive(true);
                 }

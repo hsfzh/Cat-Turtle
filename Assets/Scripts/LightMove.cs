@@ -18,8 +18,10 @@ public class LightMove : MonoBehaviour
     void Start()
     {
         sDirector = GameObject.Find("SceneDirector").GetComponent<SceneDirector>();
+        /*
         path = direc[0];
         dist=direc[1];
+        */
     }
 
     // Update is called once per frame
