@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneDirector : MonoBehaviour
 {
@@ -43,5 +44,10 @@ public class SceneDirector : MonoBehaviour
     public void CloseReset()
     {
         ResetSet.SetActive(false);
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("Start");
     }
 }

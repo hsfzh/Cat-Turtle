@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour
 
     private float refRatio = 1920f / 1080f;
 
-    private float cameraSize;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +20,11 @@ public class CameraController : MonoBehaviour
         {
             Camera.main.orthographicSize = 1080f / 20f;
         }
-        cameraSize = Camera.main.orthographicSize;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Camera.main.orthographicSize > cameraSize)
-            Camera.main.orthographicSize = cameraSize;
+        
     }
 }

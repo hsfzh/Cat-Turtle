@@ -2,21 +2,45 @@ using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
-    public float cameraSpeed = 5f;
+    public float cameraSpeed;
 
     public float orthoZoomSpeed = 0.5f;
+    
+    private float screenRatio;
+
+    private float refRatio = 2997f / 1665f;
+
+    private float cameraSize;
+    private float curCameraSize;
+
+    private Vector2 curPos;
+    private Vector2 prevPos;
+    private Vector2 direc;
+    public bool x, y;
+    private Vector3 pos;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        x = y = true;
+        prevPos = new Vector2(-99999, -99999);
+        screenRatio = (float)Screen.width / (float)Screen.height;
+        if (screenRatio < refRatio)
+        {
+            Camera.main.orthographicSize = 2997f / screenRatio / 20f/2;
+        }
+        else
+        {
+            Camera.main.orthographicSize = 1665f / 20f/2;
+        }
+        cameraSize = Camera.main.orthographicSize;
     }
     void Update()
     {
-        if (Input.touchCount == 2) //손가락 2개가 눌렸을 때
+        if (Input.touchCount == 2)
         {
-            var touchZero = Input.GetTouch(0); //첫번째 손가락 터치를 저장
-            var touchOne = Input.GetTouch(1); //두번째 손가락 터치를 저장
+            var touchZero = Input.GetTouch(0);
+            var touchOne = Input.GetTouch(1);
             
             var touchZeroPrevPos= touchZero.position - touchZero.deltaPosition;
             var touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
@@ -28,12 +52,41 @@ public class CameraZoom : MonoBehaviour
             Camera.main.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
             Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, 0.1f);
         }
-        else if (Input.touchCount == 1)
+        curCameraSize = Camera.main.orthographicSize;
+        x = (transform.position.x - curCameraSize * screenRatio > -299.7f / 2f) &&
+            (transform.position.x + curCameraSize * screenRatio < 299.7f / 2f);
+        y = (transform.position.y - curCameraSize > -166.5f / 2f) &&
+            (transform.position.y + curCameraSize <166.5f / 2f);
+        if (x && y)
         {
-            var touch = Input.GetTouch(0);
-            var touchPrevPos = touch.position - touch.deltaPosition;
-            Camera.main.transform.Translate(touchPrevPos / touchPrevPos.magnitude * cameraSpeed * Time.deltaTime);
+            if (prevPos == new Vector2(-99999, -99999) && Input.GetMouseButton(0))
+            {
+                prevPos = Input.mousePosition;
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                curPos = Input.mousePosition;
+                if (curPos != prevPos)
+                {
+                    direc = curPos - prevPos;
+                    transform.Translate(direc.normalized * cameraSpeed * Time.deltaTime);
+                }
+            }
         }
+        if (Input.GetMouseButtonUp(0))
+        {
+            prevPos = new Vector2(-99999, -99999);
+        }
+        pos = transform.position;
+        BoundCamera();
+        if (Camera.main.orthographicSize > cameraSize)
+            Camera.main.orthographicSize = cameraSize;
     }
-    
+
+    public void BoundCamera()
+    {
+        pos.x = Mathf.Clamp(pos.x, -299.7f / 2f + curCameraSize * screenRatio + 0.1f, 299.7f / 2f - curCameraSize * screenRatio - 0.1f);
+        pos.y = Mathf.Clamp(pos.y, -166.5f / 2f + curCameraSize + 0.1f, 166.5f / 2f - curCameraSize - 0.1f);
+        transform.position = pos;
+    }
 }
