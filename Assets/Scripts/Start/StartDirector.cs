@@ -17,7 +17,7 @@ public class StartDirector : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            SceneManager.LoadScene("Tutorial");
+            SceneManager.LoadScene("Stage select");
         }
     }
 }
