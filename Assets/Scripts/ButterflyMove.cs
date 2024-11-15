@@ -31,10 +31,10 @@ public class ButterflyMove : MonoBehaviour
         }
         else
         {
-            angle += speed * Time.deltaTime;
+            angle += direc * speed * Time.deltaTime;
         }
-        path.x = direc*radius*Mathf.Cos(angle)+center.x;
-        path.y = direc*radius*Mathf.Sin(angle)+center.y;
+        path.x = radius*Mathf.Cos(angle)+center.x;
+        path.y = radius*Mathf.Sin(angle)+center.y;
         transform.position = path;
     }
 }

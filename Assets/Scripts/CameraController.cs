@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         screenRatio = (float)Screen.width / (float)Screen.height;
         if (screenRatio < refRatio)
         {
@@ -25,6 +26,14 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        screenRatio = (float)Screen.width / (float)Screen.height;
+        if (screenRatio < refRatio)
+        {
+            Camera.main.orthographicSize = 1920f / screenRatio / 20f;
+        }
+        else
+        {
+            Camera.main.orthographicSize = 1080f / 20f;
+        }
     }
 }

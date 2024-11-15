@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class GameDirector : MonoBehaviour
 {
     public GameObject player;
-    public Player SlimeScript;
-    public Player CatScript;
-    public Player TurtleScript;
+    public SlimeController SlimeScript;
+    public CatController CatScript;
+    public TurtleController TurtleScript;
     public GameObject slime, cat, turtle;
     public Vector3 slimePos, catPos, turtlePos;
     public int rowSize;
@@ -20,6 +20,9 @@ public class GameDirector : MonoBehaviour
     public GameObject slimeBtn;
     public GameObject catBtn;
     public GameObject turtleBtn;
+    public GameObject slimeBtnF;
+    public GameObject catBtnF;
+    public GameObject turtleBtnF;
     private Vector3 clickPosition;
     public Vector3[,] tilePositions;
     public GameObject[,] tiles;
@@ -52,6 +55,9 @@ public class GameDirector : MonoBehaviour
         slimeBtn.SetActive(false);
         catBtn.SetActive(false);
         turtleBtn.SetActive(false);
+        slimeBtnF.SetActive(true);
+        catBtnF.SetActive(true);
+        turtleBtnF.SetActive(true);
         player = slime;
         tiles = new GameObject [rowSize, columnSize];
         tilePositions = new Vector3[rowSize, columnSize];
@@ -73,46 +79,63 @@ public class GameDirector : MonoBehaviour
     {
         if (SlimeScript == null)
         {
-            SlimeScript = slime.GetComponent<Player>();
+            SlimeScript = slime.GetComponent<SlimeController>();
         }
         if (CatScript == null)
         {
-            CatScript = cat.GetComponent<Player>();
+            CatScript = cat.GetComponent<CatController>();
         }
         if (TurtleScript == null)
         {
-            TurtleScript = turtle.GetComponent<Player>();
+            TurtleScript = turtle.GetComponent<TurtleController>();
         }
         if (Time.timeScale != 0)
         {
             if (player != slime)
             {
-                slimeBtn.SetActive(true);
+                if (!TurtleScript.player.tunnel)
+                {
+                    slimeBtn.SetActive(true);
+                    slimeBtnF.SetActive(false);
+                }
+                else
+                {
+                    slimeBtn.SetActive(false);
+                    slimeBtnF.SetActive(true);
+                }
                 catBtn.SetActive(false);
                 turtleBtn.SetActive(false);
+                catBtnF.SetActive(true);
+                turtleBtnF.SetActive(true);
             }
             else
             {
                 slimeBtn.SetActive(false);
+                slimeBtnF.SetActive(true);
                 if (Mathf.Abs((slime.transform.position - cat.transform.position).magnitude) <= 6)
                 {
                     catBtn.SetActive(true);
+                    catBtnF.SetActive(false);
                 }
                 else
                 {
                     catBtn.SetActive(false);
+                    catBtnF.SetActive(true);
                 }
+
                 if (Mathf.Abs((slime.transform.position - turtle.transform.position).magnitude) <= 6)
                 {
                     turtleBtn.SetActive(true);
+                    turtleBtnF.SetActive(false);
                 }
                 else
                 {
                     turtleBtn.SetActive(false);
+                    turtleBtnF.SetActive(true);
                 }
             }
 
-            SlimeScript.lightNum = CatScript.lightNum = TurtleScript.lightNum = maxLights-curLights-1;
+            SlimeScript.player.lightNum = CatScript.player.lightNum = TurtleScript.player.lightNum = maxLights-curLights-1;
             CheckClick();
             if(onLights<maxLights-1)
                 CheckLights();
@@ -283,7 +306,7 @@ public class GameDirector : MonoBehaviour
     {
         if (player == slime)
         {
-            SlimeScript.LightOff();
+            SlimeScript.player.LightOff();
             player = cat;
             slime.SetActive(false);
         }
@@ -293,7 +316,7 @@ public class GameDirector : MonoBehaviour
     {
         if (player == slime)
         {
-            SlimeScript.LightOff();
+            SlimeScript.player.LightOff();
             player = turtle;
             slime.SetActive(false);
         }

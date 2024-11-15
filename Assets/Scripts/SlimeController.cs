@@ -9,7 +9,7 @@ public class SlimeController : MonoBehaviour
     public float speed;
     public float jumpForce;
     public float height;
-    private Player player;
+    public Player player;
     public GameObject[] lights;
 
     // Start is called before the first frame update
@@ -34,6 +34,7 @@ public class SlimeController : MonoBehaviour
             else
             {
                 gameObject.layer = 7;
+                player.rigid.velocity=new Vector2(0, player.rigid.velocity.y);
             }
         }
     }

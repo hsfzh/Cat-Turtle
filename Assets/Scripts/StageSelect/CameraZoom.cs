@@ -22,6 +22,7 @@ public class CameraZoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         x = y = true;
         prevPos = new Vector2(-99999, -99999);
         screenRatio = (float)Screen.width / (float)Screen.height;
@@ -68,7 +69,7 @@ public class CameraZoom : MonoBehaviour
                 curPos = Input.mousePosition;
                 if (curPos != prevPos)
                 {
-                    direc = curPos - prevPos;
+                    direc = prevPos - curPos;
                     transform.Translate(direc.normalized * cameraSpeed * Time.deltaTime);
                 }
             }

@@ -167,6 +167,8 @@ public class CatController : MonoBehaviour
             else
             {
                 gameObject.layer = 7;
+                player.rigid.velocity=new Vector2(0, player.rigid.velocity.y);
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player:MonoBehaviour
@@ -83,9 +84,12 @@ public class Player:MonoBehaviour
                 isJump = true;
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
                 rigid.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            } if (!left && !right) direction = 0;
+            }
+            if (!left && !right && !isJump)
+            {
+                direction = 0;
+            }
             rigid.velocity = new Vector2(direction * speed, rigid.velocity.y);
-            //player.transform.Translate(new Vector2(direction * speed * Time.deltaTime, 0), Space.World);
             if (direction != 0) facing = direction;
         }
     }
@@ -145,6 +149,14 @@ public class Player:MonoBehaviour
         else
         {
             active = false;
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (isJump)
+        {
+            direction = 0;
         }
     }
 }
