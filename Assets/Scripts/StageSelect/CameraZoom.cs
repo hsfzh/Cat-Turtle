@@ -13,26 +13,29 @@ public class CameraZoom : MonoBehaviour
     private float cameraSize;
     private float curCameraSize;
 
+    private Rigidbody2D rigid;
     private Vector2 curPos;
     private Vector2 prevPos;
     private Vector2 direc;
-    public bool x, y;
     private Vector3 pos;
+    public int cameraCase;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1;
-        x = y = true;
+        rigid = gameObject.GetComponent<Rigidbody2D>();
         prevPos = new Vector2(-99999, -99999);
         screenRatio = (float)Screen.width / (float)Screen.height;
         if (screenRatio < refRatio)
         {
-            Camera.main.orthographicSize = 2997f / screenRatio / 20f/2;
+            cameraCase = 0;
+            Camera.main.orthographicSize = 2997f / screenRatio / 20f;
         }
         else
         {
-            Camera.main.orthographicSize = 1665f / 20f/2;
+            cameraCase = 1;
+            Camera.main.orthographicSize = 1665f / 20f;
         }
         cameraSize = Camera.main.orthographicSize;
     }
@@ -49,16 +52,12 @@ public class CameraZoom : MonoBehaviour
             var prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             var touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
             var deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-
             Camera.main.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
-            Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, 0.1f);
         }
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, cameraSize/3f, cameraSize);
         curCameraSize = Camera.main.orthographicSize;
-        x = (transform.position.x - curCameraSize * screenRatio > -299.7f / 2f) &&
-            (transform.position.x + curCameraSize * screenRatio < 299.7f / 2f);
-        y = (transform.position.y - curCameraSize > -166.5f / 2f) &&
-            (transform.position.y + curCameraSize <166.5f / 2f);
-        if (x && y)
+
+        if (Input.touchCount < 2 && Camera.main.orthographicSize < cameraSize)
         {
             if (prevPos == new Vector2(-99999, -99999) && Input.GetMouseButton(0))
             {
@@ -70,23 +69,63 @@ public class CameraZoom : MonoBehaviour
                 if (curPos != prevPos)
                 {
                     direc = prevPos - curPos;
-                    transform.Translate(direc.normalized * cameraSpeed * Time.deltaTime);
+                    if (direc.magnitude < cameraSpeed)
+                        rigid.velocity = direc;
+                    else
+                        rigid.velocity = direc.normalized * cameraSpeed;
+                }
+                else
+                {
+                    rigid.velocity=Vector2.zero;
                 }
             }
+            if (Input.GetMouseButtonUp(0))
+            {
+                prevPos = new Vector2(-99999, -99999);
+                direc=Vector2.zero;
+            }
         }
-        if (Input.GetMouseButtonUp(0))
+        if (rigid.velocity.magnitude > 0)
         {
-            prevPos = new Vector2(-99999, -99999);
+            rigid.velocity *= 0.99f;
+        }
+        else
+        {
+            rigid.velocity=Vector2.zero;
         }
         pos = transform.position;
-        BoundCamera();
-        if (Camera.main.orthographicSize > cameraSize)
-            Camera.main.orthographicSize = cameraSize;
+        if (Camera.main.orthographicSize < cameraSize)
+        {
+            if(Camera.main.orthographicSize>1665f/20f && cameraCase==0)
+                BoundCameraX();
+            else if(Camera.main.orthographicSize>2997f/(screenRatio)/20f && cameraCase==1)
+                BoundCameraY();
+            else
+                BoundCamera();
+        }
+        else
+        {
+            transform.position = new Vector3(0, 0, -10);
+        }
     }
 
     public void BoundCamera()
     {
         pos.x = Mathf.Clamp(pos.x, -299.7f / 2f + curCameraSize * screenRatio + 0.1f, 299.7f / 2f - curCameraSize * screenRatio - 0.1f);
+        pos.y = Mathf.Clamp(pos.y, -166.5f / 2f + curCameraSize + 0.1f, 166.5f / 2f - curCameraSize - 0.1f);
+        transform.position = pos;
+    }
+
+    public void BoundCameraX()
+    {
+        pos.x = Mathf.Clamp(pos.x, -299.7f / 2f + curCameraSize * screenRatio + 0.1f, 299.7f / 2f - curCameraSize * screenRatio - 0.1f);
+        pos.y = 0;
+        transform.position = pos;
+    }
+    
+    public void BoundCameraY()
+    {
+        pos.x = 0;
         pos.y = Mathf.Clamp(pos.y, -166.5f / 2f + curCameraSize + 0.1f, 166.5f / 2f - curCameraSize - 0.1f);
         transform.position = pos;
     }
