@@ -103,10 +103,35 @@ public class GameDirector : MonoBehaviour
                     slimeBtn.SetActive(false);
                     slimeBtnF.SetActive(true);
                 }
-                catBtn.SetActive(false);
-                turtleBtn.SetActive(false);
-                catBtnF.SetActive(true);
-                turtleBtnF.SetActive(true);
+                if (player == cat)
+                {
+                    if (Mathf.Abs((cat.transform.position - turtle.transform.position).magnitude) <= 6)
+                    {
+                        turtleBtn.SetActive(true);
+                        turtleBtnF.SetActive(false);
+                    }
+                    else
+                    {
+                        turtleBtn.SetActive(false);
+                        turtleBtnF.SetActive(true);
+                    }
+                    catBtn.SetActive(false);
+                    catBtnF.SetActive(true);
+                }else if (player == turtle)
+                {
+                    if (Mathf.Abs((turtle.transform.position - cat.transform.position).magnitude) <= 6)
+                    {
+                        catBtn.SetActive(true);
+                        catBtnF.SetActive(false);
+                    }
+                    else
+                    {
+                        catBtn.SetActive(false);
+                        catBtnF.SetActive(true);
+                    }
+                    turtleBtn.SetActive(false);
+                    turtleBtnF.SetActive(true);
+                }
             }
             else
             {
@@ -304,7 +329,7 @@ public class GameDirector : MonoBehaviour
     }
     public void CatChange()
     {
-        if (player == slime)
+        if (player != cat)
         {
             SlimeScript.player.LightOff();
             player = cat;
@@ -314,7 +339,7 @@ public class GameDirector : MonoBehaviour
 
     public void TurtleChange()
     {
-        if (player == slime)
+        if (player != turtle)
         {
             SlimeScript.player.LightOff();
             player = turtle;
