@@ -159,13 +159,14 @@ public class GameDirector : MonoBehaviour
                     turtleBtnF.SetActive(true);
                 }
             }
-
+            
             SlimeScript.player.lightNum = CatScript.player.lightNum = TurtleScript.player.lightNum = maxLights-curLights-1;
             CheckClick();
             if(onLights<maxLights-1)
                 CheckLights();
         }
     }
+    
 
     public void CheckClick()
     {
