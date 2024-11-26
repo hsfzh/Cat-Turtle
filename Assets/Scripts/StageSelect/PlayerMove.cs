@@ -24,24 +24,37 @@ public class PlayerMove : MonoBehaviour
         {
             if (curPoint < stagePoints[stage])
             {
-                gameObject.GetComponent<SpriteRenderer>().flipX=false;
                 Vector3 direc = wayPoints[curPoint + 1].position - transform.position;
                 transform.Translate(direc.normalized*speed*Time.deltaTime);
                 if (Vector3.Distance(transform.position, wayPoints[curPoint + 1].position) < 0.1f)
                 {
                     curPoint += 1;
                 }
+                if (transform.position.x < wayPoints[curPoint+1].position.x)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX=false;
+                } else if (transform.position.x > wayPoints[curPoint+1].position.x)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX=true;
+                }
             }
             else if (curPoint > stagePoints[stage])
             {
-                gameObject.GetComponent<SpriteRenderer>().flipX=true;
                 Vector3 direc = wayPoints[curPoint - 1].position - transform.position;
                 transform.Translate(direc.normalized*speed*Time.deltaTime);
                 if (Vector3.Distance(transform.position, wayPoints[curPoint - 1].position) < 0.1f)
                 {
                     curPoint -= 1;
                 }
+                if (transform.position.x < wayPoints[curPoint-1].position.x)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX=false;
+                } else if (transform.position.x > wayPoints[curPoint-1].position.x)
+                {
+                    gameObject.GetComponent<SpriteRenderer>().flipX=true;
+                }
             }
+            
             if (curPoint == stagePoints[stage])
                 move = false;
         }
